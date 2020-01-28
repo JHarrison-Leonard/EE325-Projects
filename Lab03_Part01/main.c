@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------
  * File:        main.c
- * Description:Assignment 3
+ * Description: Assignment 3
  *              Initializes LED1 to off and LED2 to on
  *              Switches between 4 states based off of button inputs
  *              State 1: SW1 is pressed but not switch 2
@@ -59,7 +59,7 @@ int main()
 		while((P1IN & SW1) && !(P1IN & SW2))
 		{
 			_delay_ms(20); // Enter debounce
-			if((P1IN & SW1) && !(P1IN & SW2)) P2OUT &= LED1; // Turn LED1 on
+			if((P1IN & SW1) && !(P1IN & SW2)) P2OUT |= LED1; // Turn LED1 on
 			while((P1IN & SW1) && !(P1IN & SW2))
 			{
 				P2OUT ^= LED2; //Toggle LED2

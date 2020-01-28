@@ -6,7 +6,7 @@ SHELL = cmd.exe
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CMD_SRCS += \
-../lnk_msp430fg4617.cmd 
+../lnk_msp430fg4618.cmd 
 
 C_SRCS += \
 ../Lab1_D1.c \
@@ -29,6 +29,7 @@ C_DEPS__QUOTED += \
 "twofact.d" 
 
 C_SRCS__QUOTED += \
-"../Lab1_D1.c" 
+"../Lab1_D1.c" \
+"../twofact.c" 
 
 
