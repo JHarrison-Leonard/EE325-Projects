@@ -12,7 +12,7 @@ GEN_CMDS__FLAG :=
 ORDERED_OBJS += \
 "./Lab1_D1.obj" \
 "./twofact.obj" \
-"../lnk_msp430fg4617.cmd" \
+"../lnk_msp430fg4618.cmd" \
 $(GEN_CMDS__FLAG) \
 -llibc.a \
 
@@ -141,7 +141,7 @@ all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 Lab01_DemoProject01.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: MSP430 Linker'
-	"C:/ti/ccs901/ccs/tools/compiler/ti-cgt-msp430_18.12.1.LTS/bin/cl430" -vmsp --code_model=small --data_model=small -Ooff --use_hw_mpy=16 --advice:power="all" --define=__MSP430FG4617__ -g --c99 --printf_support=full --diag_warning=225 --diag_wrap=off --display_error_number -z -m"Lab01_DemoProject01.map" --heap_size=300 --stack_size=80 --cinit_hold_wdt=on -i"C:/ti/ccs901/ccs/ccs_base/msp430/include" -i"C:/ti/ccs901/ccs/tools/compiler/ti-cgt-msp430_18.12.1.LTS/lib" -i"C:/ti/ccs901/ccs/tools/compiler/ti-cgt-msp430_18.12.1.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Lab01_DemoProject01_linkInfo.xml" --use_hw_mpy=16 --rom_model -o "Lab01_DemoProject01.out" $(ORDERED_OBJS)
+	"C:/ti/ccs901/ccs/tools/compiler/ti-cgt-msp430_18.12.1.LTS/bin/cl430" -vmsp --code_model=small --data_model=small -Ooff --use_hw_mpy=16 --advice:power="all" --define=__MSP430FG4618__ -g --c99 --printf_support=full --diag_warning=225 --diag_wrap=off --display_error_number -z -m"Lab01_DemoProject01.map" --heap_size=300 --stack_size=80 --cinit_hold_wdt=on -i"C:/ti/ccs901/ccs/ccs_base/msp430/include" -i"C:/ti/ccs901/ccs/tools/compiler/ti-cgt-msp430_18.12.1.LTS/lib" -i"C:/ti/ccs901/ccs/tools/compiler/ti-cgt-msp430_18.12.1.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Lab01_DemoProject01_linkInfo.xml" --use_hw_mpy=16 --rom_model -o "Lab01_DemoProject01.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 

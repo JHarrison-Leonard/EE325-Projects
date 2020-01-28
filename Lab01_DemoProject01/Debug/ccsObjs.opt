@@ -1,1 +1,1 @@
-"./Lab1_D1.obj" "./twofact.obj" "../lnk_msp430fg4617.cmd" -llibc.a 
+"./Lab1_D1.obj" "./twofact.obj" "../lnk_msp430fg4618.cmd" -llibc.a 
