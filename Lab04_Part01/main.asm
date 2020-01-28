@@ -1,7 +1,12 @@
 ;-------------------------------------------------------------------------------
-; MSP430 Assembler Code Template for use with TI Code Composer Studio
-;
-;
+; File:        main.asm
+; Function:    [Does...
+; Description: [Does that by...
+; Input:       [Takes inputs...
+; Output:      [Gives outputs...
+; Author:      Justin H. Leonard
+; Lab section: 04
+; Date:        Febuary 4th, 2020
 ;-------------------------------------------------------------------------------
             .cdecls C,LIST,"msp430.h"       ; Include device header file
             
@@ -15,6 +20,7 @@
             .retainrefs                     ; And retain any sections that have
                                             ; references to current section.
 
+inputStr:	.cstring "Hello! Welcome to CPE325. It is a great day, is it not?"
 ;-------------------------------------------------------------------------------
 RESET       mov.w   #__STACK_END,SP         ; Initialize stackpointer
 StopWDT     mov.w   #WDTPW|WDTHOLD,&WDTCTL  ; Stop watchdog timer
