@@ -13,6 +13,12 @@
 ;-------------------------------------------------------------------------------
             .def    RESET                   ; Export program entry-point to
                                             ; make it known to linker.
+
+inputStr:	.cstring "Hello! Welcome to CPE325. It is a great day, is it not?"
+
+			.data
+
+
 ;-------------------------------------------------------------------------------
             .text                           ; Assemble into program memory.
             .retain                         ; Override ELF conditional linking
@@ -20,7 +26,7 @@
             .retainrefs                     ; And retain any sections that have
                                             ; references to current section.
 
-inputStr:	.cstring "Hello! Welcome to CPE325. It is a great day, is it not?"
+
 ;-------------------------------------------------------------------------------
 RESET       mov.w   #__STACK_END,SP         ; Initialize stackpointer
 StopWDT     mov.w   #WDTPW|WDTHOLD,&WDTCTL  ; Stop watchdog timer
