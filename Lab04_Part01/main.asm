@@ -52,7 +52,7 @@ sLoopNNW:	call	#isalnum				;
 			cmp.b	#'?', -1(R4)			;
 			jeq		incSent					;
 			jmp		sLoopNW					;
-incSent:	inc.w	(R5)					;
+incSent:	inc.w	0(R5)					;
 			jmp		sLoopNW					;
 
 sLoopEnd:	jmp		sLoopEnd				;
