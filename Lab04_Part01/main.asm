@@ -9,15 +9,10 @@
 ; Date:        Febuary 4th, 2020
 ;-------------------------------------------------------------------------------
             .cdecls C,LIST,"msp430.h"       ; Include device header file
-            
+
 ;-------------------------------------------------------------------------------
             .def    RESET                   ; Export program entry-point to
                                             ; make it known to linker.
-
-inputStr:	.cstring "Hello! Welcome to CPE325. It is a great day, is it not?"
-
-			.data
-
 
 ;-------------------------------------------------------------------------------
             .text                           ; Assemble into program memory.
@@ -26,6 +21,11 @@ inputStr:	.cstring "Hello! Welcome to CPE325. It is a great day, is it not?"
             .retainrefs                     ; And retain any sections that have
                                             ; references to current section.
 
+inputStr:	.cstring "Hello! Welcome to CPE325. It is a great day, is it not?"
+
+			.data
+sentCount:	.word 0							; Sentence count
+wordCount:	.word 0							; Word count
 
 ;-------------------------------------------------------------------------------
 RESET       mov.w   #__STACK_END,SP         ; Initialize stackpointer
@@ -35,8 +35,21 @@ StopWDT     mov.w   #WDTPW|WDTHOLD,&WDTCTL  ; Stop watchdog timer
 ;-------------------------------------------------------------------------------
 ; Main loop here
 ;-------------------------------------------------------------------------------
+main:		mov.w	#inputStr, R4			; R4 points to inputStr
+			mov.w	#sentCount, R5			; R5 points to sentCount
+			mov.w	#wordCount, R6			; R6 points to wordCount
+sLoopNW:	cmp.b	#0x00, @R4				; 
+			jz		sLoopEnd				;
+			call	isalnum					;
+			jz		sLoopNW					;
+			inc.w	@R6
+sLoopNNW:	call	isalnum
+			jnz		sLoopNNW
 
-                                            
+
+sLoopEnd:	jmp sLoopEnd
+
+isalnum:	
 
 ;-------------------------------------------------------------------------------
 ; Stack Pointer definition
