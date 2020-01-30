@@ -40,10 +40,10 @@ main:		mov.w	#inputStr, R4			; R4 points to inputStr
 			mov.w	#wordCount, R6			; R6 points to wordCount
 sLoopNW:	cmp.b	#0x00, 0(R4)			;
 			jz		sLoopEnd				;
-			call	isalnum					;
+			call	#isalnum				;
 			jz		sLoopNW					;
 			inc.w	0(R6)					;
-sLoopNNW:	call	isalnum					;
+sLoopNNW:	call	#isalnum				;
 			jnz		sLoopNNW				;
 			cmp.b	#'.', -1(R4)			;
 			jeq		incSent					;
