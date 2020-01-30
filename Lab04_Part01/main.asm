@@ -41,10 +41,10 @@ main:		mov.w	#inputStr, R4			; R4 points to inputStr
 sLoopNW:	cmp.b	#0x00, 0(R4)			;
 			jz		sLoopEnd				;
 			call	#isalnum				;
-			jz		sLoopNW					;
+			jnz		sLoopNW					;
 			inc.w	0(R6)					;
 sLoopNNW:	call	#isalnum				;
-			jnz		sLoopNNW				;
+			jz		sLoopNNW				;
 			cmp.b	#'.', -1(R4)			;
 			jeq		incSent					;
 			cmp.b	#'!', -1(R4)			;
