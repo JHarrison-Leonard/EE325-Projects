@@ -38,18 +38,42 @@ StopWDT     mov.w   #WDTPW|WDTHOLD,&WDTCTL  ; Stop watchdog timer
 main:		mov.w	#inputStr, R4			; R4 points to inputStr
 			mov.w	#sentCount, R5			; R5 points to sentCount
 			mov.w	#wordCount, R6			; R6 points to wordCount
-sLoopNW:	cmp.b	#0x00, @R4				; 
+sLoopNW:	cmp.b	#0x00, 0(R4)			;
 			jz		sLoopEnd				;
 			call	isalnum					;
 			jz		sLoopNW					;
-			inc.w	@R6
-sLoopNNW:	call	isalnum
-			jnz		sLoopNNW
+			inc.w	@R6						;
+sLoopNNW:	call	isalnum					;
+			jnz		sLoopNNW				;
+			cmp.b	#'.', -1(R4)			;
+			jeq		incSent					;
+			cmp.b	#'!', -1(R4)			;
+			jeq		incSent					;
+			cmp.b	#'?', -1(R4)			;
+			jeq		incSent					;
+			jmp		sLoopNW					;
+incSent:	inc.w	@R5						;
+			jmp		SLoopNW					;
 
+sLoopEnd:	jmp		sLoopEnd				;
 
-sLoopEnd:	jmp sLoopEnd
-
-isalnum:	
+isalnum:	mov.b	@R4+, R7				;
+			cmp.b	#'0', R7				;
+			jl		isanF					;
+			cmp.b	#'9'+1, R7				;
+			jl		isanT					;
+			cmp.b	#'A', R7				;
+			jl		isanF					;
+			cmp.b	#'Z'+1, R7				;
+			jl		isanT					;
+			cmp.b	#'a', R7				;
+			jl		isanF					;
+			cmp.b	#'z'+1, R7				;
+			jl		isanT					;
+			clrz							;
+			ret								;
+isanT:		setz							;
+isanF:		ret								;
 
 ;-------------------------------------------------------------------------------
 ; Stack Pointer definition
