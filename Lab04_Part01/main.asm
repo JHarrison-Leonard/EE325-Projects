@@ -14,6 +14,10 @@
             .def    RESET                   ; Export program entry-point to
                                             ; make it known to linker.
 
+			.data
+sentCount:	.word 0							; Sentence count
+wordCount:	.word 0							; Word count
+
 ;-------------------------------------------------------------------------------
             .text                           ; Assemble into program memory.
             .retain                         ; Override ELF conditional linking
@@ -22,10 +26,6 @@
                                             ; references to current section.
 
 inputStr:	.cstring "Hello! Welcome to CPE325. It is a great day, is it not?"
-
-			.data
-sentCount:	.word 0							; Sentence count
-wordCount:	.word 0							; Word count
 
 ;-------------------------------------------------------------------------------
 RESET       mov.w   #__STACK_END,SP         ; Initialize stackpointer
