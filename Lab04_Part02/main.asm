@@ -30,10 +30,23 @@ StopWDT     mov.w   #WDTPW|WDTHOLD,&WDTCTL  ; Stop watchdog timer
 ;-------------------------------------------------------------------------------
 ; Main loop here
 ;-------------------------------------------------------------------------------
-main:		mov.w	#inputStr, R4			;
+main:		bis.b	#0xFF, &P1DIR			;
+			mov.w	#inputStr, R4			;
 			call	#getNum					;
-			jz		
+			jz		strFail					;
+			mov.b	#'*', R5				;
+			cmp.b	@R4+, R6				;
+			jne		strFail					;
+			mov.w	R6, R5					;
+			call	#getNum					;
+			jz		strFail					;
+			cmp.w	R5, R6					;
+			jge		multiply				;
+			
 
+getNum:		
+
+isNum:		
 
 ;-------------------------------------------------------------------------------
 ; Stack Pointer definition
@@ -46,4 +59,3 @@ main:		mov.w	#inputStr, R4			;
 ;-------------------------------------------------------------------------------
             .sect   ".reset"                ; MSP430 RESET Vector
             .short  RESET
-            
