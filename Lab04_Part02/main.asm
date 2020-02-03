@@ -34,13 +34,16 @@ main:		bis.b	#0xFF, &P1DIR			;
 			mov.w	#inputStr, R4			;
 			mov.w	#0xFF, R7				;
 			call	#getNum					;
-			jnz		strFail					;
-			mov.b	#'*', R5				;
-			cmp.b	@R4+, R5				;
+			jnz		#strFail				;
+			mov.b	#'*', R10				;
+			cmp.b	R5, R9					;
 			jne		strFail					;
 			mov.w	R6, R5					;
 			call	#getNum					;
-			jz		strFail					;
+			jz		#strFail				;
+			mov.b	#0x00, R10				;
+			cmp.b	R10, R9					;
+			jne		#strFail				;
 			cmp.w	R5, R6					;
 			jge		multiply				;
 			mov.w	R5, R7					;
@@ -54,21 +57,32 @@ strFail:
 output:		bis.b	R7,	&P2OUT				;
 done:		jmp		#done					;
 
-getNum:		
+getNum:		clr		R8						;
+gnLoop:		mov.w	#10, R9					;
+			clr		R10						;
+			add.w	R8, R10					;
+			dec.w	R9						;
+			jnz		#gnLoop					;
+			mov.w	R10, R8					;
 			call	#isNum					;
-			jez		#gnFail					;
-			
+			jnz		#gnExit					;
+			sub.b	#'0', R9				;
+			add.w	R9, R8					;
+			jmp		#gnLoop					;
+gnExit:		cmp.b	#'*', R9				;
+			jeq		#gnSucc					;
+			cmp.b	#0x00, R9				;
+gnSucc	:	ret								;
 
-isNum:		mov.b	@R4+, R8				;
-			cmp.b	#'0', R8				;
+isNum:		mov.b	@R4+, R9				;
+			cmp.b	#'0', R9				;
 			jl		#inF					;
-			cmp.b	#'9'+1, R8				;
+			cmp.b	#'9'+1, R9				;
 			jl		#inT					;
 			clrz							;
 			ret								;
 inT:		setz							;
 inF:		ret								;
-			
 
 ;-------------------------------------------------------------------------------
 ; Stack Pointer definition
