@@ -16,7 +16,20 @@
 ;-------------------------------------------------------------------------------
 			.text
 
-HW_mult:	ret
+HW_mult:	push	R4						;
+			push	R5
+			mov.w	-6(SP), R4				; Obtain argument 1
+			mov.w	-8(SP), R5				; Obtain argument 2
+			clr		R13						; Clear output
+loop:		dec.w	R5
+			jge		exit
+			mov.w	@R4, &MPY
+			mov.w	@R4+, &OP2
+			add.w	&RESLO, R13
+			jmp		loop
+exit:		pop R5							;
+			pop R4
+			ret								;
 
 
 ;-------------------------------------------------------------------------------
