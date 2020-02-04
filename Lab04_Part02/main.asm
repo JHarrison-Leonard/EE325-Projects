@@ -38,29 +38,31 @@ main:		bis.b	#0xFF, &P2DIR			; Set Port 2 to output
 			mov.w	#inputStr, R4			; Point R4 to inputStr
 			mov.b	#0xFF, R7				; Set failure output to 0xFF
 			call	#getNum					; Call getNum
-			jnz		#strFail				; If string was invalid, go to strFail
+			mov.w	R8, R6					; Forgot the output was to R8 not R6
+			jnz		strFail					; If string was invalid, go to strFail
 			mov.b	#'*', R10				; Test last character
 			cmp.b	R10, R9					; If last character wasn't '*'
-			jne		#strFail				; Then string invalid, go to strFail
+			jne		strFail					; Then string invalid, go to strFail
 			mov.w	R6, R5					; move getNum output to R5
 			call	#getNum					; Call getNum
-			jz		#strFail				; If string was invalid, go to strFail
+			mov.w	R8, R6					; Forgot the output was to R8 not R6 (x2 combo)
+			jnz		strFail					; If string was invalid, go to strFail
 			mov.b	#0x00, R10				; Test last character
 			cmp.b	R10, R9					; If last character wasn't NULL
-			jne		#strFail				; Then string invalid, go to strFail
+			jne		strFail					; Then string invalid, go to strFail
 			cmp.w	R5, R6					; Move R5 and R6 to ensure R5 < R6
-			jge		#multiply				; ^
+			jge		multiply				; ^
 			mov.w	R5, R7					; ^
 			mov.w	R6, R5					; ^
 			mov.w	R7, R6					; ^
 multiply:	clr.w	R7						; output = R5 * R6
 mLoop:		add.w	R6, R7					; By adding R5 to output
 			dec.w	R5						; R5 number of times
-			jnz		#mLoop					; ^
+			jnz		mLoop					; ^
 strFail:									; If str was invalid, then output is already 0xFF
-output:		bis.b	R7,	&P2OUT				; Output R7 to port 2
+output:		mov.b	R7,	&P2OUT				; Output R7 to port 2
 
-done:		jmp		#done					; End of process
+done:		jmp		done					; End of process
 
 											; getNum sub-process
 											; Expects char pointer in R4
@@ -72,20 +74,20 @@ done:		jmp		#done					; End of process
 											; Volatilely uses R10
 getNum:		clr		R8						; Clear output register
 gnLoop:		call	#isNum					; Call isNum
-			jnz		#gnExit					; If next char isn't numeric, exit gnLoop
-			mov.w	#10, R9					; Multiply output register by 10
-			clr		R10						; ^
-gnMLoop:	add.w	R8, R10					; ^
-			dec.w	R9						; ^
-			jnz		#gnMLoop				; ^
-			mov.w	R10, R8					; ^
+			jnz		gnExit					; If next char isn't numeric, exit gnLoop
+			mov.w	#10, R10				; Multiply output register by 10
+			clr		R11						; ^
+gnMLoop:	add.w	R8, R11					; ^
+			dec.w	R10						; ^
+			jnz		gnMLoop					; ^
+			mov.w	R11, R8					; ^
 			sub.b	#'0', R9				; Convert numeric char to integer
 			add.w	R9, R8					; Add next digit to output
-			jmp		#gnLoop					; Continue gnLoop until non-numeric number
+			jmp		gnLoop					; Continue gnLoop until non-numeric number
 gnExit:		cmp.b	#'*', R9				; If last char was either '*' or NULL
-			jeq		#gnSucc					; then return success as Z is 1
+			jeq		gnSucc					; then return success as Z is 1
 			cmp.b	#0x00, R9				; else, Z will be 0
-gnSucc	:	ret								; Return
+gnSucc:		ret								; Return
 
 											; isNum sub-process
 											; Expects char pointer in R4
@@ -94,9 +96,9 @@ gnSucc	:	ret								; Return
 											; Sets Z to 1 if char is numeric
 isNum:		mov.b	@R4+, R9				; Stores next char from R4 into R9
 			cmp.b	#'0', R9				; R9 < '0'
-			jl		#inF					; not numeric
+			jl		inF						; not numeric
 			cmp.b	#'9'+1, R9				; '0' <= R9 <= '9'
-			jl		#inT					; is numeric
+			jl		inT						; is numeric
 			clrz							; Clear Z as char could be '9'+1
 			ret								; Return
 inT:		setz							; Set Z for is numeric
