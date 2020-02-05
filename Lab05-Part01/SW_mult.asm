@@ -21,8 +21,8 @@ SW_mult:	push	R4							;
 			push	R6
 			push	R7
 			push	R8
-			mov.w	-12(SP), R4					; Obtain argument 1
-			mov.w	-14(SP), R5					; Obtain argument 2
+			mov.w	12(SP), R4					; Obtain argument 1
+			mov.w	14(SP), R5					; Obtain argument 2
 			clr		R12							; Clear output
 mLoop:		dec.w	R5
 			jge		exit

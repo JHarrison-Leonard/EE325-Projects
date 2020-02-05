@@ -37,11 +37,11 @@ StopWDT     mov.w   #WDTPW|WDTHOLD,&WDTCTL  ; Stop watchdog timer
 main:		push	iAlength				; Argument 2 of SW_mult
 			push	#inputArr				; Argument 1 of SW_mult
 			call	#SW_mult				; Call SW_mult
-			sub.w	#4, SP					; Clean arguments off stack
+			add.w	#4, SP					; Clean arguments off stack
 			push	iAlength				; Argument 2 of HW_mult
 			push	#inputArr				; Argument 1 of HW_mult
 			call	#HW_mult				; Call HW_mult
-			sub.w	#4, SP					; Clean arguments off stack
+			add.w	#4, SP					; Clean arguments off stack
 
 ;-------------------------------------------------------------------------------
 ; Stack Pointer definition
