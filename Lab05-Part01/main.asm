@@ -1,9 +1,14 @@
 ;-------------------------------------------------------------------------------
 ; File:        main.asm
-; Function:    [Does...
-; Description: [Does that by...
-; Input:       [Takes inputs...
-; Output:      [Gives outputs...
+; Function:    Obtains the sum of the squares for an integer array using two
+;              different methods: A software algorithm for multiplication and
+;              the hardware multiplier.
+; Description: Function performed by calling sub-processes SW_mult for the
+;              software algorithm and HW_mult for the hardware method.
+; Input:       Integer array defined at inputArr
+;              Size of array defined at iALength
+; Output:      Software algorithm output stored to R12
+;              Hardware solution output stored to R13
 ; Author:      Justin H. Leonard
 ; Lab section: 04
 ; Date:        February 11th, 2020
