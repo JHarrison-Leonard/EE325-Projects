@@ -26,7 +26,7 @@ HW_mult:	push	R4						; Place register contents on stack
 			mov.w	8(SP), R5				; Obtain argument 2
 			clr		R13						; Clear output
 loop:		dec.w	R5						;{ Iterating through array
-			jge		exit					;  Exiting loop when array fully iterated
+			jl		exit					;  Exiting loop when array fully iterated
 			mov.w	@R4, &MPYS				;  Set operand 1 of signed multiply to element
 			mov.w	@R4+, &OP2				;  Set operand 2 to element
 			add.w	&RESLO, R13				;  Accumulate result in R13

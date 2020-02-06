@@ -30,7 +30,7 @@ SW_mult:	push	R4							; Place register contents on stack
 			mov.w	14(SP), R5					; Obtain argument 2 (Size of array)
 			clr		R12							; Clear output
 mLoop:		dec.w	R5							;{ Iterating through array
-			jge		exit						;  Exiting mLoop when array fully iterated
+			jl		exit						;  Exiting mLoop when array fully iterated
 			mov.w	@R4+, R6					;  Get element from array
 			cmp.w	#0, R6						;  Testing if element is negative
 			jge		skipNeg						;  Skipping negation if positive
