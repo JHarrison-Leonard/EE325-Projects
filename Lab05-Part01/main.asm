@@ -28,7 +28,7 @@
             .retainrefs                     ; And retain any sections that have
                                             ; references to current section.
 
-inputArr:	.int 1 2 3 4 5					; Input array of integers
+inputArr:	.int 1, 2, 3, 4, 5				; Input array of integers
 iALength:	.word 5							; Length of inputArr
 
 ;-------------------------------------------------------------------------------
@@ -39,14 +39,16 @@ StopWDT     mov.w   #WDTPW|WDTHOLD,&WDTCTL  ; Stop watchdog timer
 ;-------------------------------------------------------------------------------
 ; Main loop here
 ;-------------------------------------------------------------------------------
-main:		push	iAlength				; Argument 2 of SW_mult
+main:		push	iALength				; Argument 2 of SW_mult
 			push	#inputArr				; Argument 1 of SW_mult
 			call	#SW_mult				; Call SW_mult
 			add.w	#4, SP					; Clean arguments off stack
-			push	iAlength				; Argument 2 of HW_mult
+			push	iALength				; Argument 2 of HW_mult
 			push	#inputArr				; Argument 1 of HW_mult
 			call	#HW_mult				; Call HW_mult
 			add.w	#4, SP					; Clean arguments off stack
+
+EOP:		jmp		EOP						; End of process
 
 ;-------------------------------------------------------------------------------
 ; Stack Pointer definition
