@@ -16,7 +16,7 @@
 ;-------------------------------------------------------------------------------
 			.text
 
-SW_mult:	push	R4							; Place register contents on stack
+StrToInt:	push	R4							; Place register contents on stack
 			push	R5
 			push	R6
 			mov.w	6(SP), R4					; Obtain argument 1 (String pointer)
@@ -25,16 +25,16 @@ SW_mult:	push	R4							; Place register contents on stack
 			mov.b	@R4+, R6					; Get first char of string
 			cmp.b	#'-', R6					; Test if first char is a '-'
 			jne		mLoop						; If not, then skip the negation
-			mov.w	#-10, &MACS
-			mov.b	@R4+, R6
-			sub.b	#'0', R6
-			mov.w	R6, &OP2
+			
+			
+			
+			
 			mov.b	@R4+, R6
 mLoop:		cmp.b	#0x00, R6
 			jeq		exit
 			sub.b	#'0', R6
-			mov.w	R6,
-exit:
+			
+exit:		
 			pop		R6							; Retrieve register contents from stack
 			pop		R5
 			pop		R4
