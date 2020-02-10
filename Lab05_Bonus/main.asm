@@ -1,9 +1,12 @@
 ;-------------------------------------------------------------------------------
 ; File:        main.asm
-; Function:    [Does...
-; Description: [Does that by...
-; Input:       [Takes inputs...
-; Output:      [Gives outputs...
+; Function:    Obtains the decimal for a given input string that is assumed to
+;              be properly formatted, at least 5 digits, and no more than 16
+;              bits in output size.
+; Description: Function performed by calling a sub-process defined in a seperate
+;              file labled "StrToInt".
+; Input:       Decimal string defined as deciString
+; Output:      Decimal value stored to deciVal
 ; Author:      Justin H. Leonard
 ; Lab section: 04
 ; Date:        February 11th, 2020
@@ -16,7 +19,7 @@
 
 			.ref	StrToInt				; Reference StrToInt sub-process
 
-deciVal:	.int 0							; Output variable
+deciVal:	.word 0							; Output variable
 
 ;-------------------------------------------------------------------------------
             .text                           ; Assemble into program memory.
