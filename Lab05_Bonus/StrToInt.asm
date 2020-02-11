@@ -26,8 +26,8 @@
 StrToInt:	push	R4							; Place register contents on stack
 			push	R5
 			push	R6
-			mov.w	6(SP), R4					; Obtain argument 1 (String pointer)
-			mov.w	8(SP), R5					; Obtain argument 2 (Output pointer)
+			mov.w	8(SP), R4					; Obtain argument 1 (String pointer)
+			mov.w	10(SP), R5					; Obtain argument 2 (Output pointer)
 			clr		&RESLO						; Clear multiplier output
 			mov.b	@R4+, R6					; Get first char of string
 			cmp.b	#'-', R6					; Test if first char is a '-'
