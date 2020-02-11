@@ -15,11 +15,11 @@
 ; Lab section: 04
 ; Date:        February 11th, 2020
 ;-------------------------------------------------------------------------------
-			.cdecls C,LIST,"msp430.h"		; Include device header file
+			.cdecls C,LIST,"msp430.h"			; Include device header file
 
 ;-------------------------------------------------------------------------------
- 			.def	StrToInt				; Export sub-process entry-point to
-											; make it known to linker.
+ 			.def	StrToInt					; Export sub-process entry-point to
+												; make it known to linker.
 ;-------------------------------------------------------------------------------
 			.text
 
@@ -36,7 +36,7 @@ StrToInt:	push	R4							; Place register contents on stack
 bulk:		push	SR							; Preserve Z bit from negative test
 			sub.b	#'0', R6					; Convert char to integer
 			mov.w	R6, &MAC					; Move to OP1 of hardware multiplier, set to accumulate
-			mov.w	#10000, &OP2				; Move 10000 to second operand
+			mov.w	#10000, &OP2				; Move 10^4 to second operand
 			mov.b	@R4+, R6					; Get next char
 			sub.b	#'0', R6					; Convert to integer
 			mov.w	R6, &MAC					; Repeating for all but last digit

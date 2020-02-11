@@ -39,7 +39,7 @@ StopWDT     mov.w   #WDTPW|WDTHOLD,&WDTCTL  ; Stop watchdog timer
 ; Main loop here
 ;-------------------------------------------------------------------------------
 main:		push	deciVal					; Argument 2 of StrToInt
-			push	deciToString			; Argument 1 of StrToInt
+			push	deciString				; Argument 1 of StrToInt
 			call	#StrToInt				; Call StrToInt
 			add.w	#4, SP					; Clean arguments off stack
 
