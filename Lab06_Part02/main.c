@@ -5,7 +5,7 @@
  * Output:      [Gives outputs...
  * Author:      Justin H. Leonard
  * Lab Section: 04
- * Date:        [Due...
+ * Date:        February 20th, 2020
  *---------------------------------------------------------------------------*/
 #include <msp430.h>
 #include <stdio.h>
