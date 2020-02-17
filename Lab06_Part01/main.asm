@@ -47,8 +47,7 @@ mLoop:		call	msDelay					; Delay for 1 ms
 			cmp.w	#0, R4					; Test if press counter is not zero
 			jz		pSkip					; Skip press debounce logic otherwise
 			dec.w	R4						; Decrement pressed counter
-			cmp.w	#0, R4					; Test if press counter is zero
-			jnz		mLoop					; Relooping otherwise
+			jnz		mLoop					; Relooping if not zero
 			mov.w	#20, R5					; Set release counter to 20
 			jmp		mLoop					; Relooping
 pSkip:		cmp.w	#0, R5					; Test if release counter is not zero
@@ -56,14 +55,25 @@ pSkip:		cmp.w	#0, R5					; Test if release counter is not zero
 			bit.b	#BIT1, &P1IN			; Test if SW2 is released
 			jnz		mLoop					; Relooping otherwise
 			dec.w	R5						; Decrement release counter
-			cmp.w	#0, R5					; Test if release counter is zero
-			jnz		mLoop					; Relooping otherwise
+			jnz		mLoop					; Relooping if not zero
 			bic.b	#BIT1, &P1IFG			; Clear interrupt flags for SW2
 			bis.b	#BIT1, &P1IE			; Enable interrupts for SW2
 			jmp		mLoop					; Relooping
 
 
-msDelay:	ret
+msDelay:	push	R4						; Push register contents on to stack
+			mov.w	#100, R4				; Software delay (100*10cc/F_CPU ~ 1 ms)
+MSDLoop		nop								; 1cc x 7
+			nop
+			nop
+			nop
+			nop
+			nop
+			nop
+			dec.w	R4						; 1cc
+			jnz		MSDLoop					; 2cc
+			pop		R4						; Retrieve register contents off of stack
+			ret								; Return
 
 
 ;-------------------------------------------------------------------------------
