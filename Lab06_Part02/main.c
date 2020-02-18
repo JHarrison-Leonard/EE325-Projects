@@ -8,8 +8,6 @@
  * Date:        February 20th, 2020
  *---------------------------------------------------------------------------*/
 #include <msp430.h>
-#include <stdio.h>
-#include "main.h"
 
 #define SW1 !(P1IN & BIT0)
 #define SW2 !(P1IN & BIT1)
@@ -21,8 +19,9 @@ int main(void)
 	WDTCTL = WDTPW | WDTHOLD;
 	
 	// Setup clock
-	FLL_CTL0 |= DCOPLUS | XCAP18PF;	// Set capacitance
-	SCFI0 |= FN_2;					// Set DCO range
+	FLL_CTL0 |= DCOPLUS | XCAP18PF;	// Set capacitance and DCO multiply
+	SCFI0 |= FN_2;      			// Set DCO range
+	SCFI0 &= ~FLLD_8;               // Set divide value to 1
 	SCFQCTL = 63;					// (64 + 1) * 32768 = 2097152 MHz
 	
 	// Setup parallel ports
@@ -41,9 +40,6 @@ int main(void)
 		_delay_cycles(1048576);	// Delay for 1048576 cycles
 		P2OUT ^= BIT1;			// Toggle LED2
 	}
-	
-	// Default return
-	return 0;
 }
 
 #pragma vector = PORT1_VECTOR
@@ -51,12 +47,14 @@ __interrupt void Port1_ISR()
 {
 	if(SW1)
 	{
-		SCFI0 &= ~FLLD_4;
+	    SCFI0 &= ~FLLD_8;
 		SCFI0 |= FLLD_2;
 	}
-	else if(SW2)
+	if(SW2)
 	{
-		SCFI0 &= ~FLLD_4;
-		SCFI0 |= FLLD_2;
+	    SCFI0 &= ~FLLD_8;
+        SCFI0 |= FLLD_4;
 	}
+	P1IFG &= ~BIT0;
+    P1IFG &= ~BIT1;
 }
