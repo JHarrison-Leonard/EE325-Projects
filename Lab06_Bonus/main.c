@@ -8,8 +8,10 @@
  * Date:        February 20th, 2020
  *---------------------------------------------------------------------------*/
 #include <msp430.h>
+#define F_CPU 1000000UL // 1 MHz
+#include <delay.h>
 
-#define SW2 !(BIT1 | P1IN)
+#define SW2 !(BIT1 & P1IN)
 unsigned char SW2_debounce_counter_press;
 unsigned char SW2_debounce_counter_release;
 
@@ -36,28 +38,36 @@ int main(void)
 	SW2_debounce_counter_release = 0;
 	for(;;)
 	{
-		msDelay();
+		_delay_ms(1);                                   // 1 ms delay
 		if(SW2_debounce_counter_press)
 		{
 			SW2_debounce_counter_press--;
 			if(!SW2_debounce_counter_press)
 				SW2_debounce_counter_release = 20;
 		}
-		else if(SW2_debounce_counter_release && SW2)
+		else if(SW2_debounce_counter_release && !SW2)
 		{
 			SW2_debounce_counter_release--;
 			if(!SW2_debounce_counter_release)
 			{
-				P1IFG &= ~BIT1;
-				P1IE |= BIT1;
+				P1IFG &= ~BIT1;                         // Clear interrupt flag for SW2
+				P1IE |= BIT1;                           // Enable interrupts for SW2
 			}
 		}
 	}
-	
-	// Default return, assumes execution success
-	return 0;
 }
 
-void msDelay()
+#pragma vector = PORT1_VECTOR
+__interrupt void Port1_ISR()
 {
+    P1IE &= ~BIT1;                  // Disable interrupts for SW2
+    P1IFG &= ~BIT1;                 // Clear interrupt flag for SW2
+    P2OUT ^= BIT1;                  // Toggle LED2
+    SW2_debounce_counter_press = 20;// Set SW2 debounce counter to 20 ms
+}
+
+#pragma vector = WDT_VECTOR
+__interrupt void WDT_ISR()
+{
+    P2OUT ^= BIT2;                  // Toggle LED1
 }
