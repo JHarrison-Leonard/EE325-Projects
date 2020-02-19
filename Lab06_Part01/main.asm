@@ -1,12 +1,18 @@
 ;-------------------------------------------------------------------------------
 ; File:        main.asm
-; Function:    [Does...
-; Description: [Does that by...
-; Input:       [Takes inputs...
-; Output:      [Gives outputs...
+; Function:    Blinks LED1 with a frequency of 0.5 Hz. Toggles LED2 when SW2 is
+;              pressed.
+; Description: LED1 is toggled every 1 second using an interrupt sub routine
+;              tied to WDT, with the WDT set to timer mode with a 1 second
+;              interval. LED2 is toggled when SW2 is pressed using an interrupt
+;              sub routine tied to the falling edge of SW2. A debounce for SW2
+;              is implemented using a software delay to approximate a 20 ms
+;              press debounce and a 20 ms release debounce.
+; Input:       Take inputs on P1.1 for SW2
+; Output:      Gives outputs on P2.1 and P2.2 for LED2 and LED1
 ; Author:      Justin H. Leonard
 ; Lab section: 04
-; Date:        [Due...
+; Date:        February 21st, 2020
 ;-------------------------------------------------------------------------------
             .cdecls C,LIST,"msp430.h"       ; Include device header file
 
@@ -97,16 +103,16 @@ WDT_ISR:
 ;-------------------------------------------------------------------------------
 ; Stack Pointer definition
 ;-------------------------------------------------------------------------------
-            .global __STACK_END
-            .sect   .stack
-            
+			.global __STACK_END
+			.sect   .stack
+
 ;-------------------------------------------------------------------------------
 ; Interrupt Vectors
 ;-------------------------------------------------------------------------------
-            .sect   ".reset"                ; MSP430 RESET Vector
-            .short  RESET
-            .sect	".int20"				; P1.X vector
-            .short	P1_ISR
-            .sect	".int26"				; Watchdog timer vector
-            .short	WDT_ISR
-            .end
+			.sect	".reset"				; MSP430 RESET Vector
+			.short	RESET
+			.sect	".int20"				; P1.X vector
+			.short	P1_ISR
+			.sect	".int26"				; Watchdog timer vector
+			.short	WDT_ISR
+			.end
