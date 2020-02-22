@@ -45,6 +45,6 @@ __interrupt void WDT_ISR()
 	TB0CCR4 = config[configSelect++];
 	P2OUT &= ~(BIT1 | BIT2);
 	P2OUT |= config[configSelect++];
-	if(configSelect >= sizeof(conifg))
+	if(configSelect >= sizeof(config))
 		configSelect = 0;
 }
