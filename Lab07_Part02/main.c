@@ -10,7 +10,7 @@
 #include <msp430.h>
 
 // Timer max, 50% duty cycle, LED, ...
-unsigned int config = {0, 0, 0, 16, 8, BIT2, 33, 16, BIT1, 66, 33, (BIT1 | BIT2)};
+unsigned int * config = {0, 0, 0, 16, 8, BIT2, 33, 16, BIT1, 66, 33, (BIT1 | BIT2)};
 unsigned char configLength = 12;
 
 
