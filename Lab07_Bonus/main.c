@@ -37,7 +37,7 @@ int main(void)
 	
 	for(;;)
 	{
-		_BIS_SR(LPM3);			// Enter deep (ACLK only) sleep
+		LPM3;					// Enter deep (ACLK only) sleep
 		_delay_cycles(20000);	// 20 ms debounce delay
 		P1IE |= (BIT0 | BIT1);	//Enable interrupts for SW1 and SW2
 	}
@@ -49,7 +49,6 @@ __interrupt void Port1_ISR()
 	static unsigned char SW1 = 0;
 	static unsigned char SW2 = 0;
 	
-	_BIC_SR(LPM3);
 	if(SW1IFG)
 	{
 		P1IE &= ~BIT0;			// Disable interrupts for SW1
@@ -84,6 +83,7 @@ __interrupt void Port1_ISR()
 		}
 	}
 	
+	LPM3_EXIT;					// Exit sleep for debounce
 	P1IFG &= ~(BIT0 | BIT1);	// Clear interrupt flag for SW1 and SW2
 }
 
