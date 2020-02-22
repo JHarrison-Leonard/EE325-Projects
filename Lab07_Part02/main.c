@@ -10,8 +10,7 @@
 #include <msp430.h>
 
 // Timer max, 50% duty cycle, LED, ...
-unsigned int * config = {0, 0, 0, 16, 8, BIT2, 33, 16, BIT1, 66, 33, (BIT1 | BIT2)};
-unsigned char configLength = 12;
+const unsigned int config[] = {0, 0, 0, 16, 8, BIT2, 33, 16, BIT1, 66, 33, (BIT1 | BIT2)};
 
 
 int main(void)
@@ -46,6 +45,6 @@ __interrupt void WDT_ISR()
 	TB0CCR4 = config[configSelect++];
 	P2OUT &= ~(BIT1 | BIT2);
 	P2OUT |= config[configSelect++];
-	if(configSelect >= configLength)
+	if(configSelect >= sizeof(conifg))
 		configSelect = 0;
 }
