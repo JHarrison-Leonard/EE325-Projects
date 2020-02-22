@@ -70,7 +70,8 @@ __interrupt void Port1_ISR()
 			SW1 = 0;			// SW1 is released
 			P1IES |= BIT0;		// SW1 interrupt from high to low
 			P2SEL |= BIT2;		// Enable timer control of LED2
-			timer_mode = 0;		// Gradual change
+			blink_mode = 0;		// Gradual change
+			timer_max = 188;	// 3 s gradual change
 		}
 	}
 	
@@ -85,7 +86,7 @@ __interrupt void Port1_ISR()
 			if(SW1)
 			{
 				P2SEL &= ~BIT2;	// Disable timer control of LED2
-				timer_mode = 1	// Instant blink
+				blink_mode = 1;	// Instant blink
 			}
 		}
 		else
@@ -93,7 +94,8 @@ __interrupt void Port1_ISR()
 			SW2 = 0;			// SW2 is released
 			P1IES |= BIT1;		// Sw2 interrupt from high to low
 			P2SEL |= BIT2;		// Enable timer control of LED2
-			timer_mode = 0;		// Gradual change
+			blink_mode = 0;		// Gradual change
+			timer_max = 188;	// 3 s gradual change
 		}
 	}
 	
