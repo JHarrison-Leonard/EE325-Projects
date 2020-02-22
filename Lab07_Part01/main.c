@@ -19,7 +19,7 @@ int main(void)
 	WDTCTL = WDT_ADLY_1_9;		// WDT with 1.9 ms ACLK interval
 	TB0CCTL1 = OUTMOD_7;		// Reset/Set output mode
 	TB0CTL = TBSSEL_1 | MC_1;	// ACLK clock source and Up mode
-	TBOCCR0 = 1579;				// 32768 / 1579 ~ 21 Hz
+	TB0CCR0 = 1579;				// 32768 / 1579 ~ 21 Hz
 	TB0CCR1 = 0;				// Initial duty cycle of 0%;
 	P1DIR &= ~(BIT0 | BIT1);	// Set SW1 and SW2 (P1.0,1) to input
 	P2DIR |= BIT2;				// Set LED1 (P2.2) to output
