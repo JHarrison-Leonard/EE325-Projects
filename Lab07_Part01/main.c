@@ -46,7 +46,7 @@ __interrupt void Port1_ISR()
 	if(SW1IFG)					// SW1 disables WDT interrupts
 		IE1 &= ~(WDTIE);		// This Pauses duty cycle changes
 	if(SW1IFG)					// SW2 enables WDT interrupts
-		IE2 |= WDTIE			// Resuming duty cycle changes
+		IE2 |= WDTIE;			// Resuming duty cycle changes
 	P1IFG &= ~(BIT0 | BIT1);	// Clear interrupt flag for SW1 and SW2
 }
 
