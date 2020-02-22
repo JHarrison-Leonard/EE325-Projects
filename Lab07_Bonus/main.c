@@ -114,7 +114,7 @@ __interrupt void WDT_ISR()
 		if(TB0CCR1 == timer_max)	// After duty cucle reaches 100%
 		{
 			direction = 0;			// Reverse duty cycle change direction
-			if(timer_mode)			// If timer mode is instant change
+			if(blink_mode)			// If timer mode is instant change
 				P2OUT |= BIT2;		// Turn LED1 on
 		}
 	}
@@ -124,7 +124,7 @@ __interrupt void WDT_ISR()
 		if(!TB0CCR1)
 		{
 			direction = 1;
-			if(timer_mode)
+			if(blink_mode)
 				P2OUT &= BIT2;
 		}
 	}
