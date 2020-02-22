@@ -16,10 +16,10 @@
 int main(void)
 {
 	// Peripheral setup
-	WDTCTL = WDT_ADLY_1_9;		// WDT with 1.9 ms ACLK interval
+	WDTCTL = WDT_ADLY_16;		// WDT with 16 ms ACLK interval
 	TB0CCTL1 = OUTMOD_7;		// Reset/Set output mode
 	TB0CTL = TBSSEL_1 | MC_1;	// ACLK clock source and Up mode
-	TB0CCR0 = 1579;				// 32768 / 1579 ~ 21 Hz
+	TB0CCR0 = 188;				// 32768 / 188 ~ 174 Hz
 	TB0CCR1 = 0;				// Initial duty cycle of 0%;
 	P1DIR &= ~(BIT0 | BIT1);	// Set SW1 and SW2 (P1.0,1) to input
 	P2DIR |= BIT2;				// Set LED1 (P2.2) to output
@@ -40,7 +40,7 @@ int main(void)
 	return 0;
 }
 
-#pragma vecotr = PORT1_VECTOR
+#pragma vector = PORT1_VECTOR
 __interrupt void Port1_ISR()
 {
 	P1IFG &= ~(BIT0 | BIT1);
@@ -52,8 +52,8 @@ __interrupt void WDT_ISR()
 	static unsigned char direction = 1; // 1 = increase, 0 = decrease
 	if(direction)
 	{
-		TB0CCR1++;				// 1.9 ms / 3 s * 1579 ~ 1
-		if(TB0CCR1 == 1579)		// After 3 s, duty cucle reaches 100%
+		TB0CCR1++;				// 16 ms / 3 s * 188 ~ 1
+		if(TB0CCR1 == 188)		// After 3 s, duty cucle reaches 100%
 			direction = 0;		// Reverse duty cycle change direction
 	}
 	else
