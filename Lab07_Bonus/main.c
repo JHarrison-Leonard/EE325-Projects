@@ -61,7 +61,7 @@ __interrupt void Port1_ISR()
 		}
 		else
 		{
-			SW2 = 0;			// SW1 is released
+			SW1 = 0;			// SW1 is released
 			P1IES |= BIT0;		// SW1 interrupt from high to low
 		}
 	}
