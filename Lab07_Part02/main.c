@@ -1,11 +1,17 @@
 /*---------------------------------------------------------------------------
  * File:        main.c
- * Description: [Does...
- * Input:       [Takes inputs...
- * Output:      [Gives outputs...
+ * Description: Cycles through 4 different states, one state per second.
+ *                       Buzzer Freq | LED2 | LED1
+ *              State 0: Off         | 0    | 0
+ *              State 1: 2 KHz       | 0    | 1
+ *              State 2: 1 KHz       | 1    | 0
+ *              State 3: 0.5 KHz     | 1    | 1
+ * Output:      Gives outputs on:
+ *              Buzzer (P3.5)
+ *              LED1 and LED2 (P2.2,1)
  * Author:      Justin H. Leonard
  * Lab Section: 04
- * Date:        [Due...
+ * Date:        February 27th, 2020
  *---------------------------------------------------------------------------*/
 #include <msp430.h>
 
@@ -30,9 +36,9 @@ int main(void)
 	IFG1 &= ~WDTIFG;			// Clear interrupt flag for WDT
 	
 	// Enter sleep
-	_BIS_SR(LPM3);
+	LPM3;
 	
-	// Default return
+	// Default return if the processor exits sleep somehow
 	return 0;
 }
 
@@ -41,10 +47,10 @@ int main(void)
 __interrupt void WDT_ISR()
 {
 	static unsigned char configSelect = 0;
-	TB0CCR0 = config[configSelect++];
-	TB0CCR4 = config[configSelect++];
-	P2OUT &= ~(BIT1 | BIT2);
-	P2OUT |= config[configSelect++];
-	if(configSelect >= sizeof(config) / 2)
-		configSelect = 0;
+	TB0CCR0 = config[configSelect++];		// Timer max from config
+	TB0CCR4 = config[configSelect++];		// Half of timer max from config
+	P2OUT &= ~(BIT1 | BIT2);				// Clear LEDs
+	P2OUT |= config[configSelect++];		// Set LEDs from config
+	if(configSelect >= sizeof(config) / 2)	// If end of config...
+		configSelect = 0;					// Loop back
 }
