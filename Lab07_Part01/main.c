@@ -1,11 +1,14 @@
 /*---------------------------------------------------------------------------
  * File:        main.c
- * Description: [Does...
- * Input:       [Takes inputs...
- * Output:      [Gives outputs...
+ * Description: Gradually increases the brightness of LED1 from off to full
+ *              brightness over the course 3 seconds then gradually decreases
+ *              from full brightness to off over the course of 3 seconds.
+ *              Pressing SW1 pauses this process while pressing SW2 resumes.
+ * Input:       Takes inputs on SW1 and SW2 (P1.0,1)
+ * Output:      Gives output on LED1 (P2.2)
  * Author:      Justin H. Leonard
  * Lab Section: 04
- * Date:        [Due...
+ * Date:        February 27th, 2020
  *---------------------------------------------------------------------------*/
 #include <msp430.h>
 
@@ -39,6 +42,7 @@ int main(void)
 	// Default return if it exits sleep for some reason
 	return 0;
 }
+
 
 #pragma vector = PORT1_VECTOR
 __interrupt void Port1_ISR()
