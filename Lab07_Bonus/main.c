@@ -27,7 +27,7 @@ int main(void)
 	WDTCTL = WDT_ADLY_16;		// WDT with 16 ms ACLK interval
 	TB0CCTL1 = OUTMOD_7;		// Reset/Set output mode
 	TB0CTL = TBSSEL_1 | MC_1;	// ACLK clock source and Up mode
-	TB0CCR0 = 188;				// 32768 / 188 ~ 174 Hz
+	TB0CCR0 = timer_max;		// 32768 / 188 ~ 174 Hz
 	TB0CCR1 = 0;				// Initial duty cycle of 0%;
 	P1DIR &= ~(BIT0 | BIT1);	// Set SW1 and SW2 (P1.0,1) to input
 	P2DIR |= BIT2;				// Set LED1 (P2.2) to output
@@ -87,6 +87,7 @@ __interrupt void Port1_ISR()
 			{
 				P2SEL &= ~BIT2;	// Disable timer control of LED2
 				blink_mode = 1;	// Instant blink
+				timer_max = 8;  // 4 Hz blink
 			}
 		}
 		else
@@ -111,7 +112,7 @@ __interrupt void WDT_ISR()
 	if(direction)
 	{								// 16 ms / 3 s * 188 ~ 1
 		TB0CCR1++;					// Or 1 / 16 ms / 8 Hz ~ 8
-		if(TB0CCR1 == timer_max)	// After duty cucle reaches 100%
+		if(TB0CCR1 == timer_max)	// After duty cycle reaches 100%
 		{
 			direction = 0;			// Reverse duty cycle change direction
 			if(blink_mode)			// If timer mode is instant change
@@ -125,7 +126,7 @@ __interrupt void WDT_ISR()
 		{
 			direction = 1;
 			if(blink_mode)
-				P2OUT &= BIT2;
+				P2OUT &= ~BIT2;
 		}
 	}
 }
