@@ -1,6 +1,13 @@
-#include <stdio.h>
-#include <avr/io.h>
-#include <util/setbaud.h>
+/*---------------------------------------------------------------------------
+ * File:        serialIO.c
+ * Description: [Does...
+ * Input:       [Takes inputs...
+ * Output:      [Gives outputs...
+ * Author:      Justin H. Leonard
+ * Lab Section: 04
+ * Date:        [Due...
+ *---------------------------------------------------------------------------*/
+#include <msp430.h>
 #include "serialIO.h"
 
 void initialize_UART()
