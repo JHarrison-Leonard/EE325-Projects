@@ -1,11 +1,26 @@
 /*---------------------------------------------------------------------------
  * File:        main.c
- * Description: [Does...
- * Input:       [Takes inputs...
- * Output:      [Gives outputs...
+ * Description: Switches between 3 states.
+ *              Initial State: Gradually increases the brightness of LED1
+ *                             over the course of 3 seconds until full
+ *                             brightness and then gradually decreases the
+ *                             brightness of LED1 over the course of 3
+ *                             seconds until off. This repeats.
+ *              State 1: On the press of SW1, the gradual change of LED1
+ *                       pauses. This state reverts to the initial state on
+ *                       the press or release of SW2.
+ *              State 2: On the press of SW1 if SW2 is being pressed,
+ *                       the initial state is parralled with the period being
+ *                       0.125 seconds instead 3. Exits to initial state on
+ *                       release of either SW1 or SW2.
+ *              State 3: On the press of SW2 if SW1 is being pressed, blinks
+ *                       LED1 with its current brightness at 4 Hz. Exits to
+ *                       initial state on release of either SW1 or SW2.
+ * Input:       Takes inputs on SW1 and SW2 (P1.0,1)
+ * Output:      Gives output on LED1 (P2.2)
  * Author:      Justin H. Leonard
  * Lab Section: 04
- * Date:        [Due...
+ * Date:        February 27th, 2020
  *---------------------------------------------------------------------------*/
 #include <msp430.h>
 
