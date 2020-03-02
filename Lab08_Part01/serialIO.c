@@ -5,39 +5,48 @@
  * Output:      [Gives outputs...
  * Author:      Justin H. Leonard
  * Lab Section: 04
- * Date:        [Due...
+ * Date:        March 5th, 2020
  *---------------------------------------------------------------------------*/
 #include <msp430.h>
 #include "serialIO.h"
 
-void initialize_UART()
+
+void UART_initialize()
 {
-	// Set baud values properly according to the setbaud util
-	UBRR0H = UBRRH_VALUE;
-	UBRR0L = UBRRL_VALUE;
-	#if USE_2x
-	UCSR0A |= _BV(U2X0);
-	#else
-	UCSR0A &= ~(_BV(U2X0));
-	#endif
-	
-	UCSR0C = _BV(UCSZ01) | _BV(UCSZ00); // 8-bit data
-	UCSR0B = _BV(RXEN0) | _BV(TXEN0);   // Enable RX and TX
+	UCA0CTL1 |= UCSWRST;		// Set software reset during initialization
+	P2SEL |= BIT4 | BIT5;		// UCA0 TX and RX mode (P2.4,5)
+	UCA0CTL1 |= UCSSEL_2;		// BRCLK = SMCLK = 1048576 Hz
+	UCA0BR0 = 0x37;				// Baud rate = 19200
+	UCA0BR1 = 0x00;				// BRCLK / baud rate = 1048576 / 19200 ~ 55
+	UCA0MCTL = 0x02;			// Modulation
+	UCA0CTL1 &= ~UCSWRST;		// Initialiazed, unset software reset
 }
 
-void putchar_UART(char c, FILE * stream)
+void UART_sendCharacter(char c)
 {
-	if(c == '\n')  // Carraige return before newlines
-		putchar_UART('\r', stream);
-	loop_until_bit_is_set(UCSR0A, UDRE0);
-	UDR0 = c;
+	if(c == '\n')				// Carraige return before newlines
+		UART_sendCharacter('\r');
+	while(!(IFG2 & UCA0TXIFG));	// Wait until TXBUF is empty
+	UCA0TXBUF = c;				// Send c
 }
 
-char getchar_UART(FILE * stream)
+char UART_getCharacter()
 {
-	loop_until_bit_is_set(UCSR0A, RXC0);
-	return UDR0;
+	while(!(IFG2 & UCA0RXIFG));	// Wait for character recieve
+	return UCA0RXBUF;
 }
 
-FILE out_UART = FDEV_SETUP_STREAM(putchar_UART, NULL, _FDEV_SETUP_WRITE);
-FILE in_UART = FDEV_SETUP_STREAM(NULL, getchar_UART, _FDEV_SETUP_READ);
+void UART_sendString(char * str)
+{
+	while(*str)					// Send characters from str until null
+		UART_sendCharacter(*(str++));
+}
+
+void UART_getLine(char * buf, int limit)
+{
+	int i = 0;
+	char c;
+	while((i < limit - 1) && ((c = UART_getCharacter()) != '\n'));
+		buf[i++] = c;			// Get characters until limit buffer limit or newline
+	c[i] = '\0';				// Terminate with a null character
+}
