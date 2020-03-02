@@ -11,15 +11,12 @@
 #define MAIN_H_
 
 
+enum operations {Add, Subtract, Multiply};
+
 int main(void);
 
-/* Same functionality as UART_getCharacter with the added change of calling
- * UART_sendCharacter for the recieved character
- */
-char UART_getCharacter_echo();
-
 /* Copy of UART_getLine from serialIO.h, with the change of calling
- * UART_getCharacter_echo instead of UART_getCharacter
+ * UART_sendCharacter for each character recieved
  */
 void UART_getLine_echo(char * buf, int limit);
 
