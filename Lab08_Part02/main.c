@@ -38,16 +38,16 @@ int main(void)
 		// Wait until "Help me, CalcBot!" is entered
 		do
 		{
-			botPrompt(); UART_sendString("Hi, I am CalcBot! Do you need help?\n");
+			botPrompt(); UART_sendString("Hi, I am CalcBot! Do you need help?\r");
 			usrPrompt(); UART_getLine_echo(buffer, sizeof(buffer));
 		}while(strcmp(buffer, "Help me, CalcBot!"));
 		
 		// Wait until a valid operation is entered
-		butPrompt(); UART_sendString("Would you like to 'add', 'subtract' or 'multiply'?\n");
+		botPrompt(); UART_sendString("Would you like to 'add', 'subtract' or 'multiply'?\r");
 		usrPrompt(); UART_getLine_echo(buffer, sizeof(buffer));
 		while((strcmp(buffer, "add") && strcmp(buffer, "subtract") && strcmp(buffer, "multiply")))
 		{
-			botPrompt(); UART_sendString(buffer); UART_sendString("is not a valid operation. Try again!\n");
+			botPrompt(); UART_sendString(buffer); UART_sendString(" is not a valid operation. Try again!\r");
 			usrPrompt(); UART_getLine_echo(buffer, sizeof(buffer));
 		}
 		
@@ -60,10 +60,10 @@ int main(void)
 			operation = Multiply;
 		
 		// Store first operand to output and leave second operand in buffer
-		botPrompt(); UART_sendString("What is your first operand?\n");
+		botPrompt(); UART_sendString("What is your first operand?\r");
 		usrPrompt(); UART_getLine_echo(buffer, sizeof(buffer));
 		output = atoi(buffer);
-		botPrompt(); UART_sendString("What is your second operand?\n");
+		botPrompt(); UART_sendString("What is your second operand?\r");
 		usrPrompt(); UART_getLine_echo(buffer, sizeof(buffer));
 		
 		// Apply operation to operands
@@ -80,7 +80,9 @@ int main(void)
 		}
 		
 		// Output
-		botPrompt(); snprintf(buffer, sizeof(buffer), "The answer is %d.\n", output);
+		botPrompt();
+		snprintf(buffer, sizeof(buffer), "The answer is %d.\r", output);
+		UART_sendString(buffer);
 	}
 }
 
@@ -88,11 +90,11 @@ void UART_getLine_echo(char * buf, int limit)
 {
 	int i = 0;
 	char c;							// Buffer variable
-	while((i < limit - 1) && ((c = UART_getCharacter()) != '\n'))
+	while((i < limit - 1) && ((c = UART_getCharacter()) != '\r'))
 	{
 		UART_sendCharacter(c);
 		buf[i++] = c;				// Get characters until buffer limit or newline
 	}
 	UART_sendCharacter(c);
-	c[i] = '\0';					// Terminate with a null character
+	buf[i] = '\0';					// Terminate with a null character
 }
