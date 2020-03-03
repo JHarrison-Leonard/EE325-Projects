@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------
  * File:        serialIO.h
- * Description: [Does...
+ * Description: Documentation for functions defined in serialIO.c
  * Input:       N/A
  * Output:      N/A
  * Author:      Justin H. Leonard

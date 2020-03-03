@@ -1,15 +1,14 @@
 /*---------------------------------------------------------------------------
  * File:        main.c
- * Description: [Does...
- * Input:       [Takes inputs...
- * Output:      [Gives outputs...
+ * Description: Echos character entered into serial terminal.
+ * Input:       Serial
+ * Output:      Serial
  * Author:      Justin H. Leonard
  * Lab Section: 04
- * Date:        [Due...
+ * Date:        March 5th, 2020
  *---------------------------------------------------------------------------*/
 #include <msp430.h>
-#include <stdio.h>
-#include "main.h"
+#include "serialIO.h"
 
 
 int main(void)
@@ -17,8 +16,10 @@ int main(void)
 	// Stop watchdog timer
 	WDTCTL = WDTPW | WDTHOLD;
 	
-	// Main code
-	
-	// Default return
-	return 0;
+	UART_initialize();
+
+	for(;;)
+	{
+	    UART_sendCharacter(UART_getCharacter());
+	}
 }
