@@ -55,4 +55,6 @@ void UART_sendString(char * str);
  */
 void UART_getLine(char * buf, int limit);
 
+void UART_getLine_echo(char * buf, int limit);
+
 #endif

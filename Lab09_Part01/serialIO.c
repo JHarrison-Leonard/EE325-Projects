@@ -1,8 +1,8 @@
 /*---------------------------------------------------------------------------
  * File:        serialIO.c
  * Description: Code logic for rudimentary serial I/O
- * Input:       Serial
- * Output:      Serial
+ * Input:       UART0
+ * Output:      UART0
  * Author:      Justin H. Leonard
  * Lab Section: 04
  * Date:        March 5th, 2020
@@ -48,4 +48,23 @@ void UART_getLine(char * buf, int limit)
 	while((i < limit - 1) && ((c = UART_getCharacter()) != '\n'))
 		buf[i++] = c;			// Get characters until limit buffer limit or newline
 	buf[i] = '\0';				// Terminate with a null character
+}
+
+void UART_getLine_echo(char * buf, int limit)
+{
+    int i = 0;
+    char c;                         // Buffer variable
+    while((i < limit - 1) && ((c = UART_getCharacter()) != '\r'))
+    {
+        if((i > 0) || (c != '\x7f'))
+        {
+            UART_sendCharacter(c);
+            if(c == '\x7f')
+                i--;
+            else
+                buf[i++] = c;       // Get characters until buffer limit or newline
+        }
+    }
+    UART_sendCharacter(c);
+    buf[i] = '\0';                  // Terminate with a null character
 }
