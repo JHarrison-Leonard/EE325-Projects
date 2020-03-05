@@ -8,9 +8,7 @@
  * Date:        [Due...
  *---------------------------------------------------------------------------*/
 #include <msp430.h>
-#include <stdio.h>
-#include "main.h"
-
+#include "serialIO.h"
 
 int main(void)
 {
