@@ -9,7 +9,6 @@
  *---------------------------------------------------------------------------*/
 #ifndef SERIALIO_H_
 #define SERIALIO_H_
-#include <msp430.h>
 
 /* "Configures UCI to work in UART mode at the baud rate as follows: if your
  * first name has an even number of letters use 19200, otherwise use 115200."
