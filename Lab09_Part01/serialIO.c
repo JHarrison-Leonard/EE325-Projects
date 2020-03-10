@@ -16,8 +16,8 @@ void UART_initialize()
 	UCA0CTL1 |= UCSWRST;		// Set software reset during initialization
 	P2SEL |= BIT4 | BIT5;		// UCA0 TX and RX mode (P2.4,5)
 	UCA0CTL1 |= UCSSEL_2;		// BRCLK = SMCLK = 1048576 Hz
-	UCA0BR0 = 0x37;				// Baud rate = 19200
-	UCA0BR1 = 0x00;				// BRCLK / baud rate = 1048576 / 19200 = 54
+	UCA0BR0 = 0x09;				// Baud rate = 115200
+	UCA0BR1 = 0x00;				// BRCLK / baud rate = 1048576 / 19200 = 9
 	UCA0CTL1 &= ~UCSWRST;		// Initialized, unset software reset
 }
 

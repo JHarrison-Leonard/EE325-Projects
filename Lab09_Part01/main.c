@@ -36,20 +36,25 @@ int main(void)
 		UART_sendString("Blinker count: ");
 		UART_getLine_echo(buffer, sizeof(buffer)/sizeof(char));
 		
+		// Get remaining blinks command
 		if(buffer[0] == '?' && buffer[1] == '\0')
 		{
 			SPI_sendByte(0);
 			snprintf(buffer, sizeof(buffer)/sizeof(char), "Blinks left: %u\r", SPI_getByte());
 			UART_sendString(buffer);
 		}
+
+		// Repeat command
 		else if(buffer[0] == 'r' && buffer[1] == '\0')
 			SPI_sendByte(255);
+
 		else
 		{
 			command = atoi(buffer);
+			// If command number is 1 through 100, send command
 			if( 1 <= command && command <= 100)
 				SPI_sendByte((char) command);
-			else
+			else // Otherwise, invalid
 				UART_sendString("Invalid count entered\r");
 		}
 	}
@@ -68,16 +73,12 @@ void SPI_initialize()
 void SPI_sendByte(unsigned char b)
 {
 	while(SPI_BUSY);					// Wait until slave is ready
-	IFG2 &= ~UCB0RXIFG;
 	UCB0TXBUF = b;						// Send byte
-	while(!(IFG2 & UCB0RXIFG));
 }
 
 unsigned char SPI_getByte()
 {
 	while(SPI_BUSY);					// Wait until slave is ready
-	IFG2 &= ~UCB0RXIFG;
 	UCB0TXBUF = 0x69;					// Arbitrary write for receive
-	while(!(IFG2 & UCB0RXIFG));
 	return UCB0RXBUF;
 }
