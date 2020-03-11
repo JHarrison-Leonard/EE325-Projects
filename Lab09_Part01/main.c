@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "main.h"
+#define SIO_UART_BR 115200				// Default baud rate of bluetooth module
 #include "serialIO.h"
 
 #define SPI_BUSY (P3IN & BIT0)
@@ -43,11 +44,11 @@ int main(void)
 			snprintf(buffer, sizeof(buffer)/sizeof(char), "Blinks left: %u\r", SPI_getByte());
 			UART_sendString(buffer);
 		}
-
+		
 		// Repeat command
 		else if(buffer[0] == 'r' && buffer[1] == '\0')
 			SPI_sendByte(255);
-
+		
 		else
 		{
 			command = atoi(buffer);
