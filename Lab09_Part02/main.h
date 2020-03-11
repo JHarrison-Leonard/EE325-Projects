@@ -15,4 +15,8 @@ int main(void);
 
 void SPI_initialize();
 
+void USI_ISR();
+
+void WDT_ISR();
+
 #endif
