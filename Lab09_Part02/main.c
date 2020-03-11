@@ -5,9 +5,10 @@
  * Output:      [Gives outputs...
  * Author:      Justin H. Leonard
  * Lab Section: 04
- * Date:        [Due...
+ * Date:        March 12th, 2020
  *---------------------------------------------------------------------------*/
 #include <msp430.h>
+#include "main.h"
 
 
 int main(void)
