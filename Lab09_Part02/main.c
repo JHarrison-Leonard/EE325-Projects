@@ -14,7 +14,7 @@
 int main(void)
 {
 	// Peripheral setup
-	WDTCTL = 0x00;			// Some interval mode non aclk timing
+	WDTCTL = WDT_MDLY_32;			// Some interval mode non aclk timing
 	SPI_initialize();
 	
 	// Default return
