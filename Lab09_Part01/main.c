@@ -73,12 +73,16 @@ void SPI_initialize()
 void SPI_sendByte(unsigned char b)
 {
 	while(SPI_BUSY);					// Wait until slave is ready
+	IFG2 &= ~UCB0RXIFG;
 	UCB0TXBUF = b;						// Send byte
+	while(!(IFG2 & UCB0RXIFG));
 }
 
 unsigned char SPI_getByte()
 {
 	while(SPI_BUSY);					// Wait until slave is ready
+	IFG2 &= ~UCB0RXIFG;
 	UCB0TXBUF = 0x00;					// Arbitrary write for receive
+	while(!(IFG2 & UCB0RXIFG));
 	return UCB0RXBUF;
 }
