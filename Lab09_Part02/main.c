@@ -1,8 +1,8 @@
 /*---------------------------------------------------------------------------
  * File:        main.c
- * Description: [Does...
- * Input:       [Takes inputs...
- * Output:      [Gives outputs...
+ * Description: Blinks LED3 a number of times as commanded through SPI.
+ * Input:       Takes inputs over SPI
+ * Output:      Gives outputs on SPI and LED3
  * Author:      Justin H. Leonard
  * Lab Section: 04
  * Date:        March 12th, 2020
@@ -29,13 +29,13 @@ int main()
 	// Interrupt setup
 	IE1 |= WDTIE;
 	IFG1 &= ~WDTIFG;
-
+	
 	unsigned char lastCount = LED_BLINKS_INIT;
 	
 	P1OUT &= ~BIT4;
 	for(;;)
 	{
-	    // Enter sleep with global interrupts
+		// Enter sleep with global interrupts
 		__bis_SR_register(LPM0_bits | GIE);
 		
 		// Reply with remaining blinks

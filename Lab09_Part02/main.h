@@ -13,6 +13,11 @@
 
 int main();
 
+/* Initializes SPI as slave.
+ *
+ * Modifies: USICTL0
+ *           USICTL1
+ */
 void SPI_initialize();
 
 #endif
