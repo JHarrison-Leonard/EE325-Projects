@@ -16,7 +16,7 @@
 unsigned char command;
 unsigned char LED_blinks = LED_BLINKS_INIT;
 
-int main(void)
+int main()
 {
 	// Peripheral setup
 	WDTCTL = WDT_MDLY_32;			// WDT in 32 ms interval mode using MCLK
@@ -29,7 +29,8 @@ int main(void)
 	
 	for(;;)
 	{
-		/* Enter sleep */
+	    // Enter sleep with global interrupts
+		__bis_SR_register(LPM0_bits | GIE);
 		
 		// Reply with remaining blinks
 		if(command == 0)
@@ -37,17 +38,17 @@ int main(void)
 		
 		// Blink N times
 		else if(1 <= command && command <= 100)
+		{
 			LED_blinks = command;
+			lastCount = command;
+		}
 		
 		// Repeat last blink count
 		else if(command == 255)
-			LED_blinks = 255;
+			LED_blinks = lastCount;
 		
 		P1OUT &= ~BIT4;				// Clear busy flag
 	}
-	
-	// Default return
-	return 0;
 }
 
 void SPI_initialize()
@@ -70,7 +71,7 @@ __interrupt void USI_ISR()
 	command = USISRL;				// Read command from SPI
 	USICNT = 8;						// Bit counter for next communication
 	
-	/* Exit sleep */
+	LPM0_EXIT;
 }
 
 #pragma vector = WDT_VECTOR

@@ -11,12 +11,8 @@
 #define MAIN_H_
 
 
-int main(void);
+int main();
 
 void SPI_initialize();
-
-void USI_ISR();
-
-void WDT_ISR();
 
 #endif
