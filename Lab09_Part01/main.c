@@ -62,8 +62,8 @@ int main(void)
 
 void SPI_initialize()
 {
+    UCB0CTL1 = UCSSEL_2 | UCSWRST;      // Use SMCLK, software reset
 	UCB0CTL0 = UCMSB | UCMST | UCSYNC;	// Most significant bit, master, sync
-	UCB0CTL1 = UCSSEL_2 | UCSWRST;		// Use SMCLK, software reset
 	UCB0BR0 = 0x02;						// UCB0CLK speed divider = 2
 	UCB0BR1 = 0x00;						// 1048576 / 2 = 524288 Hz
 	P3SEL |= BIT1 | BIT2 | BIT3;		// UCB0SIMO, UCB0MISO, UCB0CLK (P3.1,2,3)
