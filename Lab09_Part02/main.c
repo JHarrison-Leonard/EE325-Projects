@@ -13,17 +13,18 @@
 #define LED_BLINKS_INIT 10
 
 
-unsigned char command;
-unsigned char LED_blinks = LED_BLINKS_INIT;
+volatile unsigned char command;
+volatile unsigned char LED_blinks = LED_BLINKS_INIT;
 
 int main()
 {
 	// Peripheral setup
 	WDTCTL = WDT_MDLY_32;			// WDT in 32 ms interval mode using MCLK
-	SPI_initialize();
 	P1DIR |= BIT0 | BIT4;			// LED3 and busy flag (P1.0,4) as output
 	P1OUT |= BIT4;					// Busy flag initially on
 	P1OUT &= ~BIT0;					// LED3 initially off
+	SPI_initialize();
+	USICNT = 8;
 	
 	// Interrupt setup
 	IE1 |= WDTIE;
@@ -31,17 +32,17 @@ int main()
 
 	unsigned char lastCount = LED_BLINKS_INIT;
 	
+	P1OUT &= ~BIT4;
 	for(;;)
 	{
 	    // Enter sleep with global interrupts
 		__bis_SR_register(LPM0_bits | GIE);
 		
 		// Reply with remaining blinks
-		if(command == 0)
-			USISRL = LED_blinks;
+		USISRL = LED_blinks;
 		
 		// Blink N times
-		else if(1 <= command && command <= 100)
+		if(1 <= command && command <= 100)
 		{
 			LED_blinks = command;
 			lastCount = command;
