@@ -5,7 +5,7 @@
  * Output:      UART0
  * Author:      Justin H. Leonard
  * Lab Section: 04
- * Serial:      2020031100
+ * Serial:      2020031200
  *---------------------------------------------------------------------------*/
 #include <msp430.h>
 #include "serialIO.h"

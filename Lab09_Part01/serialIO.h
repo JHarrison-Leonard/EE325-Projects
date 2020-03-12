@@ -5,11 +5,14 @@
  * Output:      N/A
  * Author:      Justin H. Leonard
  * Lab Section: 04
- * Serial:      2020031100
+ * Serial:      2020031200
  *---------------------------------------------------------------------------*/
 #ifndef SERIALIO_H_
 #define SERIALIO_H_
-//
+
+
+// All macros should be defined globally using the compiler
+
 // Default baud rate
 #ifndef SIO_UART_BR
 #define SIO_UART_BR 9600
@@ -28,7 +31,7 @@
 
 /*   "Configures UCI to work in UART mode at the baud rate as follows: if your
  * first name has an even number of letters use 19200, otherwise use 115200."
- * My first name is "Justin" so the baud rate is set to 19200
+ * Baud rate is no longer arbitrarily decided and can be specified.
  *
  * Modifies: UCA0CTL1
  *           P2SEL
