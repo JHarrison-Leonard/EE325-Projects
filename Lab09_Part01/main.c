@@ -1,8 +1,9 @@
 /*---------------------------------------------------------------------------
  * File:        main.c
- * Description: [Does...
- * Input:       [Takes inputs...
- * Output:      [Gives outputs...
+ * Description: Acts as an interface between a human on the UART interface
+ *              and a blinker program on the SPI interface.
+ * Input:       Takes inputs on UART and SPI
+ * Output:      Gives outputs on UART and SPI
  * Author:      Justin H. Leonard
  * Lab Section: 04
  * Date:        March 12th, 2020
@@ -62,7 +63,7 @@ int main(void)
 
 void SPI_initialize()
 {
-    UCB0CTL1 = UCSSEL_2 | UCSWRST;      // Use SMCLK, software reset
+	UCB0CTL1 = UCSSEL_2 | UCSWRST;      // Use SMCLK, software reset
 	UCB0CTL0 = UCMSB | UCMST | UCSYNC;	// Most significant bit, master, sync
 	UCB0BR0 = 0x02;						// UCB0CLK speed divider = 2
 	UCB0BR1 = 0x00;						// 1048576 / 2 = 524288 Hz
