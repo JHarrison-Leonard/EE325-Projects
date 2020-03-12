@@ -25,6 +25,10 @@ int main()
 	P1OUT |= BIT4;					// Busy flag initially on
 	P1OUT &= ~BIT0;					// LED3 initially off
 	
+	// Interrupt setup
+	IE1 |= WDTIE;
+	IFG1 &= ~WDTIFG;
+
 	unsigned char lastCount = LED_BLINKS_INIT;
 	
 	for(;;)
@@ -85,6 +89,8 @@ __interrupt void WDT_ISR()
 		P1OUT |= BIT0;				// Turn LED1 on
 		LED_blinks--;				// Subtracts a blink
 	}
+	if(counter == 1)
+	    P1OUT &= ~BIT0;             // Turn LED1 off
 	if(counter >= 10)
 		counter = -1;				// Loop around
 	
