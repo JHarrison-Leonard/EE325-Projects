@@ -79,6 +79,6 @@ void SPI_sendByte(unsigned char b)
 unsigned char SPI_getByte()
 {
 	while(SPI_BUSY);					// Wait until slave is ready
-	UCB0TXBUF = 0x69;					// Arbitrary write for receive
+	UCB0TXBUF = 0x00;					// Arbitrary write for receive
 	return UCB0RXBUF;
 }
