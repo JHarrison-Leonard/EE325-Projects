@@ -9,7 +9,7 @@
  *---------------------------------------------------------------------------*/
 #ifndef SERIALIO_H_
 #define SERIALIO_H_
-
+//
 // Default baud rate
 #ifndef SIO_UART_BR
 #define SIO_UART_BR 9600

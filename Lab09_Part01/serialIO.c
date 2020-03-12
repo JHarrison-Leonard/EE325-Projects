@@ -16,8 +16,8 @@ void UART_initialize()
 	UCA0CTL1 |= UCSWRST;		// Set software reset during initialization
 	P2SEL |= BIT4 | BIT5;		// UCA0 TX and RX mode (P2.4,5)
 	UCA0CTL1 |= UCSSEL_2;		// BRCLK = SMCLK = 1048576 Hz
-	UCA0BR0 = (char) 1048576 / SIO_UART_BR;
-	UCA0BR1 = (char) 1048576 / (256 * SIO_UART_BR);
+	UCA0BR0 = 1048576UL / SIO_UART_BR;
+	UCA0BR1 = (1048576UL / (SIO_UART_BR))>>8;
 	UCA0CTL1 &= ~UCSWRST;		// Initialized, unset software reset
 }
 
@@ -66,7 +66,6 @@ void UART_getLine_echo(char * buf, int limit)
 				buf[i++] = c;	// Get characters until buffer limit or newline
 		}
 	}
-	if(i < limit - 1)
-		UART_sendCharacter('\n');
+	UART_sendCharacter('\n');
 	buf[i] = '\0';				// Terminate with a null character
 }
